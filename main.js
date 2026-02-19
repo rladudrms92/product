@@ -43,6 +43,30 @@ customElements.define('lotto-ball', LottoBall);
 
 const lottoNumbersContainer = document.getElementById('lotto-numbers');
 const generateBtn = document.getElementById('generate-btn');
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Theme Toggle Logic
+function setTheme(isDark) {
+  if (isDark) {
+    body.classList.add('dark-mode');
+    themeToggle.textContent = '☀️ Light Mode';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    body.classList.remove('dark-mode');
+    themeToggle.textContent = '🌙 Dark Mode';
+    localStorage.setItem('theme', 'light');
+  }
+}
+
+// Initialize Theme
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+setTheme(savedTheme === 'dark' || (!savedTheme && prefersDark));
+
+themeToggle.addEventListener('click', () => {
+  setTheme(!body.classList.contains('dark-mode'));
+});
 
 function generateNumbers() {
   lottoNumbersContainer.innerHTML = '';
